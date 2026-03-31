@@ -43,7 +43,7 @@ export shelf as Shelf_PB16mm_1
 **Run the parser (zero dependencies):**
 
 ```bash
-git clone https://github.com/texttocad/tcsl.git
+git clone https://github.com/tcsl-lang/tcsl.git
 cd tcsl
 python src/parser.py examples/shelf.tcsl
 ```
@@ -551,22 +551,14 @@ This format is optimized for LLM consumption: errors with precise positions, ful
 
 ```
 tcsl/
-├── spec/
-│   ├── tcsl-manifesto-v1.0.md       # Language philosophy & principles
-│   ├── tcsl-spec-v1.5.md            # Formal specification
-│   └── tcsl-guide-v5.3.md           # LLM generation manual
-├── grammar/
-│   ├── tcsl.ebnf                     # Formal EBNF grammar (62 rules)
-│   └── tcsl.tmLanguage.json          # TextMate grammar for syntax highlighting
+├── manifest_TCSL_v1,5                # Language manifesto — philosophy & principles
+├── TCSL_v1,5-eng.md                  # Formal specification v1.5 (English)
+├── EBNF_TCSL_v1,5.md                # Formal EBNF grammar (62 rules)
+├── TextMate_TCSL_v1,5.md            # VS Code extension & TextMate grammar
 ├── src/
 │   ├── lexer.py                      # Tokenizer
 │   ├── parser.py                     # Parser + semantic analyzer
 │   └── codegen_freecad.py            # TCSL → Python/FreeCAD transpiler
-├── tcsl-vscode/
-│   ├── package.json                  # VS Code extension manifest
-│   ├── language-configuration.json
-│   └── syntaxes/
-│       └── tcsl.tmLanguage.json
 ├── examples/
 │   ├── minimal.tcsl
 │   ├── shelf_unit.tcsl
@@ -586,11 +578,10 @@ tcsl/
 
 | Document | Description |
 |----------|-------------|
-| **[Manifesto v1.0](spec/tcsl-manifesto-v1.0.md)** | Foundational principles, design philosophy, ten commandments, architectural commitments, language boundaries, industry scaling strategy |
-| **[Specification v1.5](spec/tcsl-spec-v1.5.md)** | Formal language definition — lexical structure, type system, four zones, all functions, 32 error codes, examples of valid and invalid programs |
-| **[EBNF Grammar v1.5](grammar/tcsl.ebnf)** | 62 production rules, 25 semantic constraints, LL(k≤3) compatible — the single source of truth for syntax |
-| **[LLM Guide v5.3](spec/tcsl-guide-v5.3.md)** | Complete generation manual for external LLMs — data collection, critical rules, construction patterns, 5 system prompts, pre-delivery checklist |
-| **[VS Code Extension](tcsl-vscode/)** | TextMate grammar, language configuration, scope map, coverage matrix |
+| **[Manifesto v1.0](https://github.com/tcsl-lang/tcsl/blob/main/manifest_TCSL_v1%2C5)** | Foundational principles, design philosophy, ten commandments, architectural commitments, language boundaries, industry scaling strategy |
+| **[Specification v1.5](https://github.com/tcsl-lang/tcsl/blob/main/TCSL_v1%2C5-eng.md)** | Formal language definition — lexical structure, type system, four zones, all functions, 32 error codes, examples of valid and invalid programs |
+| **[EBNF Grammar v1.5](https://github.com/tcsl-lang/tcsl/blob/main/EBNF_TCSL_v1,5.md)** | 62 production rules, 25 semantic constraints, LL(k≤3) compatible — the single source of truth for syntax |
+| **[VS Code Extension](https://github.com/tcsl-lang/tcsl/blob/main/TextMate_TCSL_v1%2C5.md)** | TextMate grammar, language configuration, scope map, coverage matrix |
 
 ---
 
@@ -633,11 +624,11 @@ If any filter yields a negative answer, the change is deferred or rejected.
 
 Contributions are welcome. Please read the following before submitting:
 
-**Parser changes** must conform to the EBNF grammar in `grammar/tcsl.ebnf`. If the implementation diverges from the specification, that is a bug in the implementation, not in the specification.
+**Parser changes** must conform to the EBNF grammar in [`EBNF_TCSL_v1,5.md`](https://github.com/tcsl-lang/tcsl/blob/main/EBNF_TCSL_v1,5.md). If the implementation diverges from the specification, that is a bug in the implementation, not in the specification.
 
 **New functions or constructors** belong in industry modules, not the language core. The core grammar must remain stable across industry additions.
 
-**New error codes** require an explanation, a triggering example, and a remediation path — matching the format in section 14 of the specification.
+**New error codes** require an explanation, a triggering example, and a remediation path — matching the format in section 14 of the [specification](https://github.com/tcsl-lang/tcsl/blob/main/TCSL_v1%2C5-eng.md).
 
 **Test coverage** — every valid example must have a snapshot test; every invalid example must verify the expected error code and position.
 
@@ -647,7 +638,7 @@ Contributions are welcome. Please read the following before submitting:
 
 - **Specification & Manifesto:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - **Parser & Tooling:** [MIT](LICENSE)
-- **VS Code Extension:** [MIT](tcsl-vscode/LICENSE)
+- **VS Code Extension:** [MIT](LICENSE)
 
 ---
 
