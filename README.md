@@ -15,15 +15,26 @@
 </p>
 
 <p align="center">
+  <a href="https://tcsl-lang.org/">Official Website</a> •
+  <a href="https://tcsl-lang.org/tcsl_viewer/">TCSL Viewer</a> •
   <a href="#quick-start">Quick Start</a> •
   <a href="#what-is-tcsl">What is TCSL</a> •
   <a href="#four-zone-architecture">Architecture</a> •
   <a href="#language-reference">Reference</a> •
+  <a href="#tcsl-viewer">Viewer</a> •
   <a href="#tooling">Tooling</a> •
   <a href="#examples">Examples</a> •
   <a href="#for-llm-agents">For LLM Agents</a> •
   <a href="#contributing">Contributing</a>
 </p>
+
+---
+
+## Official Website
+
+> **[tcsl-lang.org](https://tcsl-lang.org/)** — the official home of the TCSL project.
+
+The website serves as the central hub for everything TCSL: language documentation, specification downloads, the interactive TCSL Viewer application, news and release announcements, and community resources. Whether you are a designer exploring parametric modeling, a developer building CAD integrations, or an LLM agent generating geometry from text — the official site is the starting point for understanding the language ecosystem and accessing all published tools and materials.
 
 ---
 
@@ -40,7 +51,11 @@ shelf = box(width = width, depth = depth, height = thickness)
 export shelf as Shelf_PB16mm_1
 ```
 
-**Run the parser (zero dependencies):**
+**Try it instantly — no installation required:**
+
+> **[Open TCSL Viewer](https://tcsl-lang.org/tcsl_viewer/)** — paste the code above, press `Ctrl+Enter`, and see the 3D model in your browser.
+
+**Or run the parser locally (zero dependencies):**
 
 ```bash
 git clone https://github.com/tcsl-lang/tcsl.git
@@ -97,10 +112,10 @@ Every TCSL program moves in one direction — from parameters to geometry to exp
 
 ```
 ┌─────────┐    ┌─────────┐    ┌──────────┐    ┌─────────┐
-│  INPUT  │──▶│   LET   │───▶│ GEOMETRY │──▶│ EXPORT  │
-│         │    │         │    │          │    │         │
-│ Customer│    │Engineer │    │ Machine  │    │  Cost   │
-│ changes │    │computes │    │ builds   │    │calculat.│
+│  INPUT   │───▶│   LET   │───▶│ GEOMETRY │───▶│ EXPORT  │
+│          │    │         │    │          │    │         │
+│ Customer │    │Engineer │    │ Machine  │    │  Cost   │
+│ changes  │    │computes │    │ builds   │    │calculat.│
 └─────────┘    └─────────┘    └──────────┘    └─────────┘
 ```
 
@@ -301,6 +316,48 @@ The parser catches **30 of 32 checks** statically (94% coverage). Only `R005` (e
 
 ---
 
+## TCSL Viewer
+
+> **[Launch TCSL Viewer →](https://tcsl-lang.org/tcsl_viewer/)**
+
+TCSL Viewer is a browser-based application for parametric 3D modeling of furniture and metal structures. It combines a TCSL code editor, a Python/FreeCAD editor, an interactive 3D visualizer, a cost calculator, and a commercial quote generator — all running entirely client-side with no server required.
+
+### Key Capabilities
+
+**Dual editors.** Write TCSL v1.5 code with real-time syntax highlighting, inline error markers, and autocomplete (`Ctrl+Space`), or write Python/FreeCAD scripts directly. The "From TCSL" button transpiles between the two. 14 built-in templates range from a simple shelf to a computer desk with hutch.
+
+**Interactive 3D viewport.** Left-drag to rotate, scroll to zoom, right-drag to pan. The toolbar provides wireframe mode, exploded view, distance measurement, door/drawer animation (auto-detects elements named `door`, `drawer`, `shutter`, `flap`, `lid`), and artifact detection for forgotten auxiliary bodies.
+
+**Parametric sliders.** Every `input` parameter automatically gets a slider (10%–300% range). Moving a slider updates the code, re-parses, and rebuilds the 3D model in real time with 100ms debounce.
+
+**Element inspector.** Click any 3D element to select it — its name, dimensions (W×D×H), and material become editable in an overlay panel. Changes propagate back into the source code.
+
+**Cost calculator.** Three currencies (USD, RUB, EUR), two markup sliders (×1–×3), editable per-item prices, and JSON price list import/export. Material keywords in `export ... as` names (`PB`, `HDF`, `MDF`, `HPL`, `Metal`, `Glass`, `Plywood`) are recognized automatically.
+
+**Commercial quotes.** The green "Quote" button opens a form for company details, VAT mode (0% or 20%), discount, and validity period. Generates a 2-page PDF: page 1 with itemized table, totals, discount, and VAT; page 2 with a full-page 3D render and parts legend.
+
+**Export formats.** STL (3D printing/CAM), glTF 2.0 (web/AR/VR/Blender), PNG screenshot, PDF specification, Excel (.xlsx), AST JSON, and .tcsl/.py source files.
+
+**Collaboration.** The "Share" button copies a URL containing the full code state compressed via LZString. Recipients open the link and see the same model instantly.
+
+**Diagnostics & LLM integration.** The Inspector tab shows all errors from both parsers (32 TCSL codes + 14 Python codes). The "LLM Fix" button generates a structured report with errors, line numbers, and full source — optimized for pasting into ChatGPT, Claude, or any LLM for automatic correction.
+
+**31 built-in materials** across five categories (wood, metal, glass, plastic, stone) with procedurally generated texture previews. Apply to any selected element with one click.
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+Enter` | Run (active editor) |
+| `Ctrl+Shift+T` | Switch to TCSL tab |
+| `Ctrl+Shift+P` | Switch to Python tab |
+| `Ctrl+S` | Save .tcsl file |
+| `Ctrl+Space` | Autocomplete |
+| `F` | Fullscreen |
+| `Esc` | Close modal / exit tour |
+
+---
+
 ## Tooling
 
 ### Parser
@@ -341,19 +398,6 @@ code --install-extension tcsl-1.5.0.vsix
 ```
 
 Features: comment toggling (`Ctrl+/`), bracket matching, folding on zone separators (`# ===...===`), word navigation aligned to TCSL identifier rules.
-
-### TCSL Viewer (Browser)
-
-A fully client-side application — no server required:
-
-- TCSL editor with syntax highlighting
-- Real-time 3D viewport (Three.js + three-bvh-csg)
-- Parametric sliders (auto-generated from `input` declarations)
-- TCSL → Python/FreeCAD transpiler
-- Cost calculator with 3 currencies and configurable markups
-- Commercial quote → PDF (2 pages with 3D render)
-- Share via compressed URL (LZString)
-- 14 built-in templates
 
 ---
 
@@ -529,7 +573,7 @@ TCSL is explicitly designed to be generated by language models. The architecture
 
 ### LLM Fix Protocol
 
-The TCSL Viewer includes an "LLM Fix" button that generates a structured report:
+The [TCSL Viewer](https://tcsl-lang.org/tcsl_viewer/) includes an "LLM Fix" button that generates a structured report:
 
 ```
 === ERRORS ===
@@ -582,6 +626,8 @@ tcsl/
 | **[Specification v1.5](https://github.com/tcsl-lang/tcsl/blob/main/TCSL_v1%2C5-eng.md)** | Formal language definition — lexical structure, type system, four zones, all functions, 32 error codes, examples of valid and invalid programs |
 | **[EBNF Grammar v1.5](https://github.com/tcsl-lang/tcsl/blob/main/EBNF_TCSL_v1,5.md)** | 62 production rules, 25 semantic constraints, LL(k≤3) compatible — the single source of truth for syntax |
 | **[VS Code Extension](https://github.com/tcsl-lang/tcsl/blob/main/TextMate_TCSL_v1%2C5.md)** | TextMate grammar, language configuration, scope map, coverage matrix |
+| **[TCSL Viewer](https://tcsl-lang.org/tcsl_viewer/)** | Browser-based IDE — 3D viewport, parametric sliders, cost calculator, quote generator, 14 templates, 31 materials |
+| **[Official Website](https://tcsl-lang.org/)** | Central hub — documentation, downloads, news, community resources |
 
 ---
 
@@ -641,6 +687,12 @@ Contributions are welcome. Please read the following before submitting:
 - **VS Code Extension:** [MIT](LICENSE)
 
 ---
+
+<p align="center">
+  <strong><a href="https://tcsl-lang.org/">tcsl-lang.org</a></strong> · <strong><a href="https://tcsl-lang.org/tcsl_viewer/">Try TCSL Viewer →</a></strong>
+  <br>
+  <sub>Code → 3D → Cost → PDF — all in one browser window, no installation required</sub>
+</p>
 
 <p align="center">
   <sub>TCSL v1.5 · Specification adopted 2026-03-18 · Parser: zero dependencies, Python 3.11+</sub>
