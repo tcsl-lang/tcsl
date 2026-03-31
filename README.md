@@ -97,10 +97,10 @@ Every TCSL program moves in one direction — from parameters to geometry to exp
 
 ```
 ┌─────────┐    ┌─────────┐    ┌──────────┐    ┌─────────┐
-│  INPUT   │───▶│   LET   │───▶│ GEOMETRY │───▶│ EXPORT  │
-│          │    │         │    │          │    │         │
-│ Customer │    │Engineer │    │ Machine  │    │  Cost   │
-│ changes  │    │computes │    │ builds   │    │calculat.│
+│  INPUT  │──▶│   LET   │───▶│ GEOMETRY │──▶│ EXPORT  │
+│         │    │         │    │          │    │         │
+│ Customer│    │Engineer │    │ Machine  │    │  Cost   │
+│ changes │    │computes │    │ builds   │    │calculat.│
 └─────────┘    └─────────┘    └──────────┘    └─────────┘
 ```
 
